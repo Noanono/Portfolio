@@ -1,8 +1,10 @@
-# Weekly update PRs for npm packages and GitHub Actions (including pinned SHAs).
+# Weekly update PRs for npm packages and GitHub Actions (including pinned SHAs),
+# opened against develop so they go through the same review as any change.
 version: 2
 updates:
   - package-ecosystem: npm
     directory: /
+    target-branch: develop
     schedule:
       interval: weekly
     groups:
@@ -14,6 +16,7 @@ updates:
 
   - package-ecosystem: github-actions
     directory: /
+    target-branch: develop
     schedule:
       interval: weekly
     commit-message:

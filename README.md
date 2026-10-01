@@ -63,7 +63,7 @@ This repo follows [Conventional Commits](https://www.conventionalcommits.org)
 
 ## CI/CD
 
-`.github/workflows/ci.yml` runs on every pull request and every push to `main`:
+`.github/workflows/ci.yml` runs on every pull request and every push to `main` or `develop`:
 
 1. **quality**: `npm ci`, lint, type-check, `npm audit` on production
    dependencies, then `nuxt generate`. The built site is kept as an artifact.
@@ -79,4 +79,5 @@ Dependabot opens weekly update PRs for npm packages and actions.
 
 More detailed docs live in [`doc/`](doc/):
 
+- [Branches and contributions](doc/branching.md): `develop` / `main` workflow and branch protection
 - [Deployment](doc/deploy.md): Cloudflare setup, secrets, manual deploy and troubleshooting
