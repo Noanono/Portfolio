@@ -1,16 +1,21 @@
 # CI/CD for the portfolio.
 #
 # On every pull request and every push to main or develop:
-#   1. quality  - install, lint, type-check, audit dependencies, build the static site
-# On pushes to main only, once quality passes:
-#   2. deploy   - publish the built site to Cloudflare Workers (noah.soler-pro.fr)
+#   1. quality         - install, lint, type-check, audit dependencies, build the static site
+# On pull requests into main:
+#   2. release-source  - only develop (or a hotfix/* branch) may be merged into main
+# On pushes, once quality passes:
+#   3. deploy          - develop -> staging    (staging-noah.soler-pro.fr)
+#                        main    -> production (noah.soler-pro.fr)
 #
 # Security choices:
 #   - Third-party actions are pinned to a full commit SHA (tag in the comment),
 #     so a moved tag cannot change what runs. Dependabot keeps them up to date.
 #   - The workflow token is read-only by default.
-#   - Cloudflare credentials live in GitHub secrets and are only exposed to the
-#     deploy job, which only runs on main inside the "production" environment.
+#   - Cloudflare credentials live in GitHub environment secrets ("staging",
+#     "production") and are only exposed to the deploy job.
+#   - Untrusted values (branch names) reach shell scripts through env vars,
+#     never through ${{ }} interpolation in `run:`.
 
 name: CI/CD
 
@@ -25,7 +30,8 @@ permissions:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  # Cancel superseded PR runs, but never interrupt a deployment.
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   quality:
@@ -76,15 +82,35 @@ jobs:
           retention-days: 7
           if-no-files-found: error
 
+  release-source:
+    name: Release comes from develop
+    if: github.event_name == 'pull_request' && github.base_ref == 'main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Check the source branch
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          case "$HEAD_REF" in
+            develop|hotfix/*)
+              echo "Source branch '$HEAD_REF' may be merged into main." ;;
+            *)
+              echo "::error::Only develop or a hotfix/* branch can be merged into main (got '$HEAD_REF'). Merge into develop first."
+              exit 1 ;;
+          esac
+
   deploy:
-    name: Deploy to Cloudflare
+    name: Deploy to ${{ github.ref == 'refs/heads/main' && 'production' || 'staging' }}
     needs: quality
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: >-
+      github.event_name == 'push' &&
+      (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     environment:
-      name: production
-      url: https://noah.soler-pro.fr
+      name: ${{ github.ref == 'refs/heads/main' && 'production' || 'staging' }}
+      url: ${{ github.ref == 'refs/heads/main' && 'https://noah.soler-pro.fr' || 'https://staging-noah.soler-pro.fr' }}
     steps:
       - name: Check out the code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -106,13 +132,24 @@ jobs:
           name: site
           path: .output/public
 
+      - name: Keep staging out of search engines
+        if: github.ref == 'refs/heads/develop'
+        run: |
+          printf 'User-agent: *\nDisallow: /\n' > .output/public/robots.txt
+          printf '/*\n  X-Robots-Tag: noindex, nofollow\n' > .output/public/_headers
+
       - name: Deploy with Wrangler
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          TARGET: ${{ github.ref == 'refs/heads/main' && 'production' || 'staging' }}
         run: |
           if [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then
-            echo "::error::Add the CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID secrets to the production environment (see README)."
+            echo "::error::Add the CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID secrets to the $TARGET environment (see doc/deploy.md)."
             exit 1
           fi
-          npm run deploy
+          if [ "$TARGET" = production ]; then
+            npm run deploy
+          else
+            npm run deploy:staging
+          fi
