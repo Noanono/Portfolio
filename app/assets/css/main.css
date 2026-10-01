@@ -1,0 +1,124 @@
+/*
+ * Theme: a topographic map on a cold winter morning.
+ * Glacier-white paper, slate ink, faint contour lines, and one piste-red
+ * accent reserved for links and focus.
+ */
+:root {
+  --paper: #eef2f3;
+  --ink: #1b2a33;
+  --ink-soft: #4d6270;
+  --contour: #a9bcc6;
+  --contour-strong: #6f8a98;
+  --piste: #c8283d;
+
+  --font: 'Archivo', system-ui, sans-serif;
+  --step--1: 0.875rem;
+  --step-0: 1.0625rem;
+  --step-1: 1.333rem;
+  --step-2: 1.777rem;
+  --step-3: 2.369rem;
+  --step-4: clamp(2.6rem, 8vw, 5.6rem);
+
+  --gutter: clamp(16px, 4vw, 48px);
+  --measure: 68ch;
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Night skiing: the same map under floodlights. */
+    --paper: #0f1a21;
+    --ink: #e6eef1;
+    --ink-soft: #9fb3bd;
+    --contour: #24363f;
+    --contour-strong: #3d5562;
+    --piste: #ff5d6c;
+    color-scheme: dark;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: var(--step-0);
+  font-variation-settings: 'wdth' 100;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  font-weight: 800;
+  font-variation-settings: 'wdth' 125;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
+
+h2 {
+  font-size: var(--step-3);
+}
+
+h3 {
+  font-size: var(--step-1);
+}
+
+p {
+  margin: 0;
+  max-width: var(--measure);
+}
+
+a {
+  color: inherit;
+  text-decoration-color: var(--piste);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.2em;
+}
+
+a:hover {
+  color: var(--piste);
+}
+
+:focus-visible {
+  outline: 3px solid var(--piste);
+  outline-offset: 3px;
+}
+
+.wrap {
+  width: 100%;
+  max-width: 1120px;
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
