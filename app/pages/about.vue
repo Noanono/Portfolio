@@ -1,14 +1,41 @@
 <script setup lang="ts">
 useSeoMeta({
   title: 'About — Noah Soler',
-  description: 'Background, experience and languages of Noah Soler, full-stack developer and engineering apprentice.',
+  description: 'Background, experience, education and languages of Noah Soler, full-stack developer and engineering apprentice.',
 })
 
-// Newest first.
-const experience = [
-  { period: 'Sep 2025 – present', role: 'Full-stack developer, apprenticeship', place: 'DOING, France' },
-  { period: 'May – Jul 2025', role: 'Project intern', place: 'Safran Helicopter Engines, Bordes, France' },
-  { period: 'Apr – Jun 2024', role: 'Project intern', place: 'Treasury General of the Kingdom, Rabat, Morocco' },
+interface TimelineItem {
+  period: string
+  title: string
+  place: string
+  detail?: string
+}
+
+// Both lists newest first. They sit side by side because the apprenticeship
+// runs in parallel with the engineering degree.
+const experience: TimelineItem[] = [
+  { period: 'Sep 2025 – present', title: 'Full-stack developer, apprenticeship', place: 'DOING, France' },
+  { period: 'May – Jul 2025', title: 'Project intern', place: 'Safran Helicopter Engines, Bordes, France' },
+  { period: 'Apr – Jun 2024', title: 'Project intern', place: 'Treasury General of the Kingdom, Rabat, Morocco' },
+]
+
+const education: TimelineItem[] = [
+  {
+    period: 'Sep 2025 – 2028 (expected)',
+    title: 'Master\'s-level engineering degree, apprenticeship track (IEID)',
+    place: 'Télécom Saint-Étienne, France',
+  },
+  {
+    period: 'Sep 2024 – Aug 2025',
+    title: 'General engineering programme, computer science and optics',
+    place: 'Télécom Saint-Étienne, France',
+  },
+  {
+    period: '2022 – 2024',
+    title: 'Integrated preparatory cycle (CITISE)',
+    place: 'Télécom Saint-Étienne, France',
+    detail: 'DUT in Electrical Engineering and Industrial Computing (GEII)',
+  },
 ]
 
 const languages = [
@@ -35,14 +62,30 @@ const languages = [
       </p>
     </div>
 
-    <h2>Experience</h2>
-    <ol class="timeline">
-      <li v-for="item in experience" :key="item.period">
-        <span class="when">{{ item.period }}</span>
-        <span class="what">{{ item.role }}</span>
-        <span class="where">{{ item.place }}</span>
-      </li>
-    </ol>
+    <div class="paths">
+      <section aria-labelledby="experience-title">
+        <h2 id="experience-title">Experience</h2>
+        <ol class="timeline">
+          <li v-for="item in experience" :key="item.period">
+            <span class="when">{{ item.period }}</span>
+            <span class="what">{{ item.title }}</span>
+            <span class="where">{{ item.place }}</span>
+          </li>
+        </ol>
+      </section>
+
+      <section aria-labelledby="education-title">
+        <h2 id="education-title">Education</h2>
+        <ol class="timeline">
+          <li v-for="item in education" :key="item.period">
+            <span class="when">{{ item.period }}</span>
+            <span class="what">{{ item.title }}</span>
+            <span class="where">{{ item.place }}</span>
+            <span v-if="item.detail" class="where">{{ item.detail }}</span>
+          </li>
+        </ol>
+      </section>
+    </div>
 
     <h2>Languages</h2>
     <dl class="languages">
@@ -75,6 +118,17 @@ h2 {
   margin-top: 28px;
   font-size: var(--step-1);
   line-height: 1.5;
+}
+
+.paths {
+  display: grid;
+  gap: 0 56px;
+}
+
+@media (min-width: 760px) {
+  .paths {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 .timeline {
