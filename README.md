@@ -1,6 +1,9 @@
 # Portfolio
 
+[![CI/CD](https://github.com/Noanono/portfolio/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Noanono/portfolio/actions/workflows/ci.yml)
+
 Noah Soler's personal portfolio, built with [Nuxt 4](https://nuxt.com).
+Live at <https://noah.soler-pro.fr>.
 
 The home page opens on an interactive topographic map: contour lines of a few
 "mountains", plus one that follows the pointer. It is drawn on a canvas with a
