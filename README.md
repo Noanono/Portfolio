@@ -3,7 +3,7 @@
 [![CI/CD](https://github.com/Noanono/portfolio/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Noanono/portfolio/actions/workflows/ci.yml)
 
 Noah Soler's personal portfolio, built with [Nuxt 4](https://nuxt.com).
-Live at <https://noah.soler-pro.fr>.
+Live at <https://noah.soler-pro.fr> (staging: <https://staging-noah.soler-pro.fr>).
 
 The home page opens on an interactive topographic map: contour lines of a few
 "mountains", plus one that follows the pointer. It is drawn on a canvas with a
@@ -63,17 +63,17 @@ This repo follows [Conventional Commits](https://www.conventionalcommits.org)
 
 ## CI/CD
 
-`.github/workflows/ci.yml` runs on every pull request and every push to `main` or `develop`:
+`.github/workflows/ci.yml` checks every pull request (lint, type-check,
+`npm audit`, build) and deploys on push:
 
-1. **quality**: `npm ci`, lint, type-check, `npm audit` on production
-   dependencies, then `nuxt generate`. The built site is kept as an artifact.
-2. **deploy** (pushes to `main` only, after quality passes): publishes the
-   artifact to Cloudflare Workers with `wrangler deploy`. The site is served at
-   <https://noah.soler-pro.fr>; Cloudflare creates the DNS record and HTTPS
-   certificate itself, since the `soler-pro.fr` zone is on Cloudflare.
+| Branch | Environment | URL |
+| --- | --- | --- |
+| `develop` | Staging | <https://staging-noah.soler-pro.fr> |
+| `main` | Production | <https://noah.soler-pro.fr> |
 
-Actions are pinned to commit SHAs, the workflow token is read-only, and
-Dependabot opens weekly update PRs for npm packages and actions.
+Both branches are protected: changes go through a reviewed pull request, and
+`main` only accepts releases from `develop` (or `hotfix/*`) that were deployed
+to staging first.
 
 ## Documentation
 
