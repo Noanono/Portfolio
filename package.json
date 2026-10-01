@@ -8,6 +8,7 @@
     "build": "nuxt build",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
+    "deploy": "wrangler deploy",
     "postinstall": "nuxt prepare",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
@@ -22,7 +23,8 @@
     "@nuxt/eslint": "^1.0.0",
     "eslint": "^9.0.0",
     "typescript": "~5.9.3",
-    "vue-tsc": "^3.3.11"
+    "vue-tsc": "^3.3.11",
+    "wrangler": "^4.145.0"
   },
   "engines": {
     "node": ">=22"

@@ -1,0 +1,19 @@
+{
+  // Cloudflare Workers config: serves the static site built by `nuxt generate`.
+  // https://developers.cloudflare.com/workers/static-assets/
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "portfolio",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": ".output/public",
+    "not_found_handling": "404-page"
+  },
+  // Cloudflare creates the DNS record and the HTTPS certificate for this
+  // subdomain on deploy (the soler-pro.fr zone is on Cloudflare).
+  "routes": [
+    { "pattern": "noah.soler-pro.fr", "custom_domain": true }
+  ],
+  // Only serve the site on the custom domain, not on *.workers.dev.
+  "workers_dev": false,
+  "preview_urls": false
+}

@@ -57,3 +57,34 @@ Add an entry to `app/data/projects.ts`. Its `slug` becomes the URL
 
 This repo follows [Conventional Commits](https://www.conventionalcommits.org)
 (`feat:`, `fix:`, `chore:`, `ci:`…).
+
+## CI/CD
+
+`.github/workflows/ci.yml` runs on every pull request and every push to `main`:
+
+1. **quality**: `npm ci`, lint, type-check, `npm audit` on production
+   dependencies, then `nuxt generate`. The built site is kept as an artifact.
+2. **deploy** (pushes to `main` only, after quality passes): publishes the
+   artifact to Cloudflare Workers with `wrangler deploy`. The site is served at
+   <https://noah.soler-pro.fr>; Cloudflare creates the DNS record and HTTPS
+   certificate itself, since the `soler-pro.fr` zone is on Cloudflare.
+
+Actions are pinned to commit SHAs, the workflow token is read-only, and
+Dependabot opens weekly update PRs for npm packages and actions.
+
+### One-time setup
+
+1. **Cloudflare API token**: in the Cloudflare dashboard, go to
+   *My Profile → API Tokens → Create Token* and use the
+   **Edit Cloudflare Workers** template. Limit it to your account and to the
+   `soler-pro.fr` zone.
+2. **Account ID**: shown on the Workers & Pages overview page in the dashboard.
+3. **GitHub environment**: in the repo, go to *Settings → Environments → New
+   environment*, name it `production`, and add two secrets:
+   `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`.
+4. Make sure no DNS record already exists for `noah.soler-pro.fr`, otherwise
+   Cloudflare cannot attach the custom domain.
+5. Re-run the workflow (or push to `main`).
+
+Configuration lives in `wrangler.jsonc`. To deploy by hand:
+`npm run generate && npm run deploy` (after `npx wrangler login`).
