@@ -13,7 +13,8 @@
     "postinstall": "nuxt prepare",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "typecheck": "nuxt typecheck"
+    "typecheck": "nuxt typecheck",
+    "audit:prod": "node scripts/audit.mjs"
   },
   "dependencies": {
     "nuxt": "^4.5.2",
