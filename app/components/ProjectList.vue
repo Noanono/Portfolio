@@ -2,19 +2,21 @@
 import type { Project } from '~/data/projects'
 
 defineProps<{ projects: Project[] }>()
+
+const { localePath, t } = useLocale()
 </script>
 
 <template>
   <ul class="project-list">
     <li v-for="project in projects" :key="project.slug">
-      <NuxtLink :to="`/projects/${project.slug}`" class="row">
+      <NuxtLink :to="localePath(`/projects/${project.slug}`)" class="row">
         <h3>{{ project.title }}</h3>
         <p class="summary">{{ project.summary }}</p>
         <p class="meta">
           <span>{{ project.context }}</span>
           <span v-if="project.period">{{ project.period }}</span>
         </p>
-        <ul class="stack" aria-label="Technologies">
+        <ul class="stack" :aria-label="t.projects.technologies">
           <li v-for="tech in project.stack" :key="tech">{{ tech }}</li>
         </ul>
       </NuxtLink>

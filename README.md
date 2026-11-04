@@ -41,8 +41,12 @@ app/
   components/
     ContourMap.vue         Interactive contour-line hero
     ProjectList.vue        Project rows used on the home and projects pages
-  data/projects.ts         Project content: edit this file to add a project
-  layouts/default.vue      Header, footer, skip link
+  composables/useLocale.ts Current language, translated strings, localized links
+  data/projects.ts         Project content (EN + FR): edit this file to add a project
+  i18n/
+    locale.ts              Locales, /fr path helpers, absolute URLs
+    messages.ts            Interface and page texts in English and French
+  layouts/default.vue      Header, footer, skip link, language switch
   pages/
     index.vue              Home
     about.vue              Background, experience, languages
@@ -54,7 +58,9 @@ public/                    Static files served as-is
 ## Adding a project
 
 Add an entry to `app/data/projects.ts`. Its `slug` becomes the URL
-(`/projects/<slug>`), and `featured: true` puts it on the home page.
+(`/projects/<slug>`, or `/fr/projects/<slug>` in French), and
+`featured: true` puts it on the home page. Every text field is written
+in English and in French; the build fails if one is missing.
 
 ## Commit messages
 
@@ -80,4 +86,5 @@ to staging first.
 More detailed docs live in [`doc/`](doc/):
 
 - [Branches and contributions](doc/branching.md): `develop` / `main` workflow and branch protection
+- [Languages (EN / FR)](doc/i18n.md): how the two versions work and how to edit or add texts
 - [Deployment](doc/deploy.md): Cloudflare setup, secrets, manual deploy and troubleshooting

@@ -1,7 +1,16 @@
 <script setup lang="ts">
-import { projects } from '~/data/projects'
+import { getProjects } from '~/data/projects'
 
-const featured = projects.filter(project => project.featured)
+// The same page serves the English root and the French /fr.
+definePageMeta({ alias: ['/fr'] })
+
+const { locale, localePath, t } = useLocale()
+const featured = computed(() => getProjects(locale.value).filter(project => project.featured))
+
+useSeoMeta({
+  title: () => t.value.home.title,
+  description: () => t.value.home.description,
+})
 </script>
 
 <template>
@@ -11,25 +20,23 @@ const featured = projects.filter(project => project.featured)
       <div class="hero-text wrap">
         <h1>Noah Soler</h1>
         <p class="role">
-          Full-stack developer and engineering apprentice at Télécom Saint-Étienne.
-          I build web and mobile products with Vue, Nuxt, Symfony and Flutter.
+          {{ t.home.role }}
         </p>
         <p class="search">
-          Looking for a 3–4 month fixed-term contract abroad in summer 2027, in
-          full-stack development, DevSecOps or technical project management.
+          {{ t.home.search }}
         </p>
         <p class="actions">
-          <NuxtLink to="/projects">See my projects</NuxtLink>
-          <a href="mailto:soler.noah@gmail.com">Email me</a>
+          <NuxtLink :to="localePath('/projects')">{{ t.home.seeProjects }}</NuxtLink>
+          <a href="mailto:soler.noah@gmail.com">{{ t.home.emailMe }}</a>
         </p>
       </div>
     </section>
 
     <section class="wrap selected" aria-labelledby="selected-title">
-      <h2 id="selected-title">Selected work</h2>
+      <h2 id="selected-title">{{ t.home.selected }}</h2>
       <ProjectList :projects="featured" />
       <p class="more">
-        <NuxtLink to="/projects">All projects</NuxtLink>
+        <NuxtLink :to="localePath('/projects')">{{ t.home.allProjects }}</NuxtLink>
       </p>
     </section>
   </div>
