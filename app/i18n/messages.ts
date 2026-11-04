@@ -18,16 +18,20 @@ export interface Messages {
     about: string
     contact: string
     footer: string
-    /** Spoken label of the language switch link, in the language it leads to. */
-    switchLabel: string
+    /** Label of the footer link to the CV PDF. */
+    cv: string
+    /** Name of the OTHER language, written in that language: the text of the language switch. */
+    switchName: string
   }
   home: {
     title: string
     description: string
     role: string
+    availability: string
     search: string
     seeProjects: string
     emailMe: string
+    downloadCv: string
     selected: string
     allProjects: string
   }
@@ -66,16 +70,19 @@ const en: Messages = {
     projects: 'Projects',
     about: 'About',
     contact: 'Contact',
-    footer: 'Saint-Étienne, France. Open to a work placement abroad in summer 2027.',
-    switchLabel: 'English version',
+    footer: 'Saint-Étienne, France. Available for a fixed-term contract abroad in summer 2027.',
+    cv: 'CV (PDF)',
+    switchName: 'Français',
   },
   home: {
     title: 'Noah Soler — Full-stack developer',
     description: 'Full-stack developer and engineering apprentice. Vue, Nuxt, Symfony, Flutter. Looking for a 3–4 month fixed-term contract abroad, summer 2027.',
     role: 'Full-stack developer and engineering apprentice at Télécom Saint-Étienne. I build web and mobile products with Vue, Nuxt, Symfony and Flutter.',
-    search: 'Looking for a 3–4 month fixed-term contract abroad in summer 2027, in full-stack development, DevSecOps or technical project management.',
+    availability: 'Available 7 June to 31 August 2027, abroad',
+    search: 'Looking for a 3–4 month fixed-term contract abroad, in full-stack development, DevSecOps or technical project management.',
     seeProjects: 'See my projects',
     emailMe: 'Email me',
+    downloadCv: 'Download my CV (PDF)',
     selected: 'Selected work',
     allProjects: 'All projects',
   },
@@ -161,15 +168,18 @@ const fr: Messages = {
     about: 'À propos',
     contact: 'Contact',
     footer: 'Saint-Étienne, France. Disponible pour une expérience à l\'étranger à l\'été 2027.',
-    switchLabel: 'Version française',
+    cv: 'CV (PDF)',
+    switchName: 'English',
   },
   home: {
     title: 'Noah Soler — Développeur full-stack',
     description: 'Développeur full-stack et apprenti ingénieur. Vue, Nuxt, Symfony, Flutter. À la recherche d\'un contrat de 3 à 4 mois à l\'étranger, été 2027.',
     role: 'Développeur full-stack et apprenti ingénieur à Télécom Saint-Étienne. Je conçois des produits web et mobiles avec Vue, Nuxt, Symfony et Flutter.',
-    search: 'Je cherche un contrat de type CDD de 3 à 4 mois à l\'étranger à l\'été 2027, en développement full-stack, DevSecOps ou gestion de projet technique.',
+    availability: 'Disponible du 7 juin au 31 août 2027, à l\'étranger',
+    search: 'Je cherche un contrat de type CDD de 3 à 4 mois à l\'étranger, en développement full-stack, DevSecOps ou gestion de projet technique.',
     seeProjects: 'Voir mes projets',
     emailMe: 'M\'écrire',
+    downloadCv: 'Télécharger mon CV (PDF)',
     selected: 'Projets sélectionnés',
     allProjects: 'Tous les projets',
   },
