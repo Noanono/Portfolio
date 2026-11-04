@@ -6,14 +6,7 @@
 // generated static site. Remove an entry as soon as a fixed version exists.
 import { execFileSync } from 'node:child_process'
 
-const ALLOWED = {
-  'GHSA-vfj7-8cjw-p6xm': 'braces <=3.0.3, no patched version yet (build tooling: globby/fast-glob)',
-  'GHSA-86w9-cpqp-85rv': 'node-forge <=1.4.0, no patched version yet (nitropack/@nuxt/cli dev server)',
-  'GHSA-858h-whjf-mvg5': 'simple-git <=3.36.0, used by @nuxt/devtools (dev only); 4.x breaks Nuxt devtools',
-  'GHSA-g4wm-2vf7-vfgr': 'simple-git <=3.36.0, used by @nuxt/devtools (dev only); 4.x breaks Nuxt devtools',
-  'GHSA-x6jw-m9v5-85vh': 'simple-git <4.0.1, used by @nuxt/devtools (dev only); 4.x breaks Nuxt devtools',
-  'GHSA-v5rq-49vh-5v5c': '@simple-git/argv-parser <2.0.1, via simple-git (dev only)',
-}
+const ALLOWED = {}
 
 let raw
 try {
