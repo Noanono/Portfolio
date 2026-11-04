@@ -15,8 +15,8 @@ const featured = projects.filter(project => project.featured)
           I build web and mobile products with Vue, Nuxt, Symfony and Flutter.
         </p>
         <p class="search">
-          Looking for a 3–4 month internship abroad from summer 2027, in full-stack
-          development, DevSecOps or technical project management.
+          Looking for a 3–4 month fixed-term contract abroad in summer 2027, in
+          full-stack development, DevSecOps or technical project management.
         </p>
         <p class="actions">
           <NuxtLink to="/projects">See my projects</NuxtLink>

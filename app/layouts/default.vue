@@ -16,7 +16,7 @@
 
     <footer class="wrap">
       <div class="site-footer">
-        <p>Saint-Étienne, France. Open to internships abroad from summer 2027.</p>
+        <p>Saint-Étienne, France. Open to a work placement abroad in summer 2027.</p>
         <ul>
           <li><a href="mailto:soler.noah@gmail.com">soler.noah@gmail.com</a></li>
           <li><a href="https://www.linkedin.com/in/noah-soler-pro-fr" rel="me">LinkedIn</a></li>
