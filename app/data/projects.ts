@@ -52,7 +52,12 @@ export const projectBases = [
   },
   {
     slug: 'camp-boat',
-    url: 'https://camp-boat.fr/',
+    links: [
+      {
+        key: 'website',
+        href: 'https://camp-boat.fr/',
+      },
+    ],
   },
   {
     slug: '3d-portfolio',

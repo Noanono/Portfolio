@@ -195,6 +195,12 @@ export default defineLocale({
         'A client project delivered through INSPIRE, the junior enterprise of Télécom Saint-Étienne. The client, a private inventor, needed a site presenting his caravan-boat concept.',
         'I was the developer on the project. I added features such as the menu banner and extra pages, and wrote a user guide so the client can edit the site without help.',
       ],
+      links: {
+        website: {
+          label: 'Visit the Camp-Boat website',
+          ariaLabel: 'Visit the Camp-Boat website (opens in a new tab)',
+        },
+      },
     },
     '3d-portfolio': {
       title: 'Interactive 3D portfolio',
