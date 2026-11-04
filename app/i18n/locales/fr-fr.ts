@@ -36,7 +36,17 @@ export default defineLocale({
       context: 'Contexte',
       when: 'Période',
       builtWith: 'Technologies',
-      liveSite: 'Site en ligne',
+      links: {
+        website: {
+          label: 'Voir le site {name}',
+          ariaLabel: 'Voir le site {name} (s\'ouvre dans un nouvel onglet)',
+        },
+        repo: {
+          label: 'Voir le code source',
+          ariaLabel: 'Voir le code source (s\'ouvre dans un nouvel onglet)',
+        },
+      },
+      openFullScreen: 'Ouvrir en plein écran',
     },
     about: {
       title: 'À propos — Noah Soler',
@@ -139,12 +149,6 @@ export default defineLocale({
         'J\'ai ajouté un index sur les requêtes les plus lentes et déplacé les filtres coûteux vers des jointures sur des tables tampons que des crons maintiennent à jour, si bien qu\'une requête ne recalcule plus tout.',
         'J\'ai aussi remplacé la pagination SQL native, qui ralentit sur les gros jeux de résultats, par une pagination pilotée par un index.',
       ],
-      links: {
-        website: {
-          label: 'Voir le site E-TOTEM',
-          ariaLabel: 'Voir le site E-TOTEM (s\'ouvre dans un nouvel onglet)',
-        },
-      },
     },
     amagis: {
       title: 'AMAGiS',
@@ -157,12 +161,6 @@ export default defineLocale({
         'J\'ai développé le système de facturation et une fonctionnalité de comparaison des évaluations dans le temps, et j\'ai repensé les composants de liste utilisés dans toute l\'application.',
         'Côté DevOps, j\'ai corrigé le pipeline CI/CD Bitbucket et mis à jour l\'environnement Docker et ses dépendances.',
       ],
-      links: {
-        website: {
-          label: 'Voir le site AMAGiS',
-          ariaLabel: 'Voir le site AMAGiS (s\'ouvre dans un nouvel onglet)',
-        },
-      },
     },
     'line-following-car': {
       title: 'Voiture suiveuse de ligne',
@@ -195,12 +193,6 @@ export default defineLocale({
         'Un projet client réalisé via INSPIRE, la junior-entreprise de Télécom Saint-Étienne. Le client, un inventeur particulier, avait besoin d\'un site présentant son concept de caravane-bateau.',
         'J\'étais le développeur du projet. J\'ai ajouté des fonctionnalités comme le bandeau de menu et des pages supplémentaires, et rédigé une notice d\'utilisation pour que le client puisse modifier le site sans aide.',
       ],
-      links: {
-        website: {
-          label: 'Voir le site Camp-Boat',
-          ariaLabel: 'Voir le site Camp-Boat (s\'ouvre dans un nouvel onglet)',
-        },
-      },
     },
     '3d-portfolio': {
       title: 'Portfolio 3D interactif',
@@ -243,7 +235,6 @@ export default defineLocale({
       ],
       embed: {
         title: 'Site de la campagne BDE (aperçu mobile)',
-        fullscreenLabel: 'Ouvrir en plein écran',
       },
     },
   },

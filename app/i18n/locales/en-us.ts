@@ -36,7 +36,17 @@ export default defineLocale({
       context: 'Context',
       when: 'When',
       builtWith: 'Built with',
-      liveSite: 'Live site',
+      links: {
+        website: {
+          label: 'Visit the {name} website',
+          ariaLabel: 'Visit the {name} website (opens in a new tab)',
+        },
+        repo: {
+          label: 'View the source code',
+          ariaLabel: 'View the source code (opens in a new tab)',
+        },
+      },
+      openFullScreen: 'Open full screen',
     },
     about: {
       title: 'About — Noah Soler',
@@ -139,12 +149,6 @@ export default defineLocale({
         'I added an index on the slowest queries, and moved the heavy filters onto joins with buffer tables that cron jobs keep up to date, so a request no longer recomputes everything.',
         'I also replaced the native SQL pagination, which slows down on large result sets, with pagination driven by an index.',
       ],
-      links: {
-        website: {
-          label: 'Visit the E-TOTEM website',
-          ariaLabel: 'Visit the E-TOTEM website (opens in a new tab)',
-        },
-      },
     },
     amagis: {
       title: 'AMAGiS',
@@ -157,12 +161,6 @@ export default defineLocale({
         'I built the invoicing system and a feature to compare evaluations over time, and redesigned the list components used across the whole app.',
         'On the DevOps side, I fixed the Bitbucket CI/CD pipeline and upgraded the Docker environment and its dependencies.',
       ],
-      links: {
-        website: {
-          label: 'Visit the AMAGiS website',
-          ariaLabel: 'Visit the AMAGiS website (opens in a new tab)',
-        },
-      },
     },
     'line-following-car': {
       title: 'Line-following car',
@@ -195,12 +193,6 @@ export default defineLocale({
         'A client project delivered through INSPIRE, the junior enterprise of Télécom Saint-Étienne. The client, a private inventor, needed a site presenting his caravan-boat concept.',
         'I was the developer on the project. I added features such as the menu banner and extra pages, and wrote a user guide so the client can edit the site without help.',
       ],
-      links: {
-        website: {
-          label: 'Visit the Camp-Boat website',
-          ariaLabel: 'Visit the Camp-Boat website (opens in a new tab)',
-        },
-      },
     },
     '3d-portfolio': {
       title: 'Interactive 3D portfolio',
@@ -243,7 +235,6 @@ export default defineLocale({
       ],
       embed: {
         title: 'BDE campaign site (mobile preview)',
-        fullscreenLabel: 'Open full screen',
       },
     },
   },

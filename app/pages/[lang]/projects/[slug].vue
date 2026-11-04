@@ -35,10 +35,6 @@ useSeoMeta({
         <dt>{{ t.projects.builtWith }}</dt>
         <dd>{{ project.stack.join(', ') }}</dd>
       </div>
-      <div v-if="project.url">
-        <dt>{{ t.projects.liveSite }}</dt>
-        <dd><a :href="project.url" rel="noopener">{{ project.url.replace(/^https?:\/\//, '').replace(/\/$/, '') }}</a></dd>
-      </div>
     </dl>
 
     <div class="body">

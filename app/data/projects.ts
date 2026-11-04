@@ -3,12 +3,20 @@
 // `app/i18n/locales`, keyed by `slug`.
 import { defaultLanguage, findLocale } from '~/i18n'
 
+/**
+ * The kinds of external link a project can have. The wording of each kind is
+ * written once per language, in `messages.projects.links`.
+ */
+export type LinkKind = 'website' | 'repo'
+
 interface ProjectBase {
   slug: string
-  /** The project's own page, shown as a link under the description. */
-  url?: string
-  /** External links opened in a new tab. `key` finds the label in the language files. */
-  links?: readonly { key: string, href: string }[]
+  /**
+   * External links, opened in a new tab. The label comes from the language
+   * files according to `kind`; `name` is what replaces `{name}` in it (the
+   * project or product name, the same in every language).
+   */
+  links?: readonly { kind: LinkKind, href: string, name?: string }[]
   /** A site shown in a phone-shaped frame on the project page. */
   embed?: {
     /** Path of the site served by this portfolio, e.g. `/bde/index.html`. */
@@ -25,7 +33,8 @@ export const projectBases = [
     slug: 'e-totem',
     links: [
       {
-        key: 'website',
+        kind: 'website',
+        name: 'E-TOTEM',
         href: 'https://www.e-totem.fr/#/home/ou_se_recharger',
       },
     ],
@@ -35,7 +44,8 @@ export const projectBases = [
     slug: 'amagis',
     links: [
       {
-        key: 'website',
+        kind: 'website',
+        name: 'AMAGiS',
         href: 'https://www.amagis.fr/',
       },
     ],
@@ -47,14 +57,20 @@ export const projectBases = [
   },
   {
     slug: 'portfolio-site',
-    url: 'https://github.com/Noanono/Portfolio',
+    links: [
+      {
+        kind: 'repo',
+        href: 'https://github.com/Noanono/Portfolio',
+      },
+    ],
     featured: true,
   },
   {
     slug: 'camp-boat',
     links: [
       {
-        key: 'website',
+        kind: 'website',
+        name: 'Camp-Boat',
         href: 'https://camp-boat.fr/',
       },
     ],
@@ -104,7 +120,6 @@ export interface Project {
   period?: string
   stack: string[]
   body: string[]
-  url?: string
   links?: ProjectLink[]
   embed?: ProjectEmbed
   featured?: boolean
@@ -124,19 +139,21 @@ function localize(base: ProjectBase, code: string): Project {
     period: texts.period,
     stack: texts.stack,
     body: texts.body,
-    url: base.url,
     links: base.links?.map(link => {
-      const text = texts.links?.[link.key]
-      if (!text) {
-        throw new Error(`Language "${locale.code}": project "${base.slug}" has no label for its "${link.key}" link.`)
-      }
-      return { href: link.href, label: text.label, ariaLabel: text.ariaLabel }
+      const fill = (text: string) => text.replaceAll('{name}', link.name ?? texts.title)
+      const text = locale.messages.projects.links[link.kind]
+      return { href: link.href, label: fill(text.label), ariaLabel: fill(text.ariaLabel) }
     }),
     embed: base.embed && (() => {
       if (!texts.embed) {
         throw new Error(`Language "${locale.code}": project "${base.slug}" has no texts for its embedded site.`)
       }
-      return { ...texts.embed, src: base.embed.src, fullscreenHref: base.embed.fullscreenHref }
+      return {
+        title: texts.embed.title,
+        src: base.embed.src,
+        fullscreenHref: base.embed.fullscreenHref,
+        fullscreenLabel: locale.messages.projects.openFullScreen,
+      }
     })(),
     featured: base.featured,
   }

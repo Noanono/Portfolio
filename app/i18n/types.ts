@@ -1,4 +1,4 @@
-import type { ProjectSlug } from '~/data/projects'
+import type { LinkKind, ProjectSlug } from '~/data/projects'
 
 export interface TimelineItem {
   period: string
@@ -45,7 +45,13 @@ export interface Messages {
     context: string
     when: string
     builtWith: string
-    liveSite: string
+    /**
+     * Text of each kind of project link, written once per language.
+     * `{name}` is replaced by the product name (or the project title).
+     * `ariaLabel` must start with `label` and say the link opens in a new tab.
+     */
+    links: Record<LinkKind, { label: string, ariaLabel: string }>
+    openFullScreen: string
   }
   about: {
     title: string
@@ -63,12 +69,6 @@ export interface Messages {
   }
 }
 
-export interface ProjectLinkText {
-  label: string
-  /** Spoken label when the visible text alone is not enough. Must start with the visible text. */
-  ariaLabel?: string
-}
-
 /** Everything about a project that has to be written in each language. */
 export interface ProjectTexts {
   title: string
@@ -80,10 +80,8 @@ export interface ProjectTexts {
   stack: string[]
   /** Longer description for the detail page, one paragraph per entry. */
   body: string[]
-  /** Labels of the project's external links, by link key (see `app/data/projects.ts`). */
-  links?: Record<string, ProjectLinkText>
   /** Texts of the embedded site, for projects that have one. */
-  embed?: { title: string, fullscreenLabel: string }
+  embed?: { title: string }
 }
 
 /**
