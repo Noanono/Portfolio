@@ -1,18 +1,22 @@
 <script setup lang="ts">
-import { projects } from '~/data/projects'
+import { getProjects } from '~/data/projects'
+
+definePageMeta({ alias: ['/fr/projects'] })
+
+const { locale, t } = useLocale()
+const projects = computed(() => getProjects(locale.value))
 
 useSeoMeta({
-  title: 'Projects — Noah Soler',
-  description: 'Professional, client and school projects by Noah Soler.',
+  title: () => t.value.projects.title,
+  description: () => t.value.projects.description,
 })
 </script>
 
 <template>
   <section class="wrap page">
-    <h1>Projects</h1>
+    <h1>{{ t.projects.heading }}</h1>
     <p class="lead">
-      Work from my apprenticeship at DOING, client projects with the INSPIRE junior
-      enterprise, and school projects at Télécom Saint-Étienne.
+      {{ t.projects.lead }}
     </p>
     <ProjectList :projects="projects" />
   </section>

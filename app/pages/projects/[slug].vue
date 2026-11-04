@@ -1,41 +1,44 @@
 <script setup lang="ts">
 import { findProject } from '~/data/projects'
 
-const route = useRoute()
-const project = findProject(String(route.params.slug))
+definePageMeta({ alias: ['/fr/projects/:slug'] })
 
-if (!project) {
+const route = useRoute()
+const { locale, localePath, t } = useLocale()
+const project = computed(() => findProject(String(route.params.slug), locale.value))
+
+if (!project.value) {
   throw createError({ statusCode: 404, statusMessage: 'Project not found', fatal: true })
 }
 
 useSeoMeta({
-  title: `${project.title} — Noah Soler`,
-  description: project.summary,
+  title: () => `${project.value?.title} — Noah Soler`,
+  description: () => project.value?.summary,
 })
 </script>
 
 <template>
   <article v-if="project" class="wrap page">
     <p class="back">
-      <NuxtLink to="/projects">All projects</NuxtLink>
+      <NuxtLink :to="localePath('/projects')">{{ t.projects.back }}</NuxtLink>
     </p>
     <h1>{{ project.title }}</h1>
 
     <dl class="facts">
       <div>
-        <dt>Context</dt>
+        <dt>{{ t.projects.context }}</dt>
         <dd>{{ project.context }}</dd>
       </div>
       <div v-if="project.period">
-        <dt>When</dt>
+        <dt>{{ t.projects.when }}</dt>
         <dd>{{ project.period }}</dd>
       </div>
       <div>
-        <dt>Built with</dt>
+        <dt>{{ t.projects.builtWith }}</dt>
         <dd>{{ project.stack.join(', ') }}</dd>
       </div>
       <div v-if="project.url">
-        <dt>Live site</dt>
+        <dt>{{ t.projects.liveSite }}</dt>
         <dd><a :href="project.url" rel="noopener">{{ project.url.replace(/^https?:\/\//, '').replace(/\/$/, '') }}</a></dd>
       </div>
     </dl>

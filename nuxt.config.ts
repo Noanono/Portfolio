@@ -9,7 +9,7 @@ export default defineNuxtConfig({
       htmlAttrs: { lang: 'en' },
       title: 'Noah Soler — Full-stack developer',
       meta: [
-        { name: 'description', content: 'Full-stack developer and engineering apprentice. Vue, Nuxt, Symfony, Flutter. Looking for a 3–4 month internship abroad, summer 2027.' },
+        { name: 'description', content: 'Full-stack developer and engineering apprentice. Vue, Nuxt, Symfony, Flutter. Looking for a 3–4 month fixed-term contract abroad, summer 2027.' },
         { name: 'theme-color', content: '#1b2a33' },
       ],
       link: [

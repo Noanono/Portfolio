@@ -1,12 +1,46 @@
+<script setup lang="ts">
+import { absoluteUrl, localizedPath, locales } from '~/i18n/locale'
+
+const route = useRoute()
+const { locale, altLocale, altPath, localePath, t } = useLocale()
+
+// Tell the browser and search engines which language the page is in, and where
+// the same page exists in the other language.
+useHead(() => ({
+  htmlAttrs: { lang: locale.value },
+  link: [
+    ...locales.map(code => ({
+      rel: 'alternate' as const,
+      hreflang: code,
+      href: absoluteUrl(localizedPath(route.path, code)),
+    })),
+    { rel: 'alternate', hreflang: 'x-default', href: absoluteUrl(localizedPath(route.path, 'en')) },
+  ],
+}))
+</script>
+
 <template>
   <div class="layout">
-    <a class="skip" href="#main">Skip to content</a>
+    <a class="skip" href="#main">{{ t.site.skip }}</a>
     <header class="site-header wrap">
-      <NuxtLink to="/" class="mark">Noah Soler</NuxtLink>
-      <nav aria-label="Main">
-        <NuxtLink to="/projects">Projects</NuxtLink>
-        <NuxtLink to="/about">About</NuxtLink>
-        <a href="mailto:soler.noah@gmail.com">Contact</a>
+      <NuxtLink :to="localePath('/')" class="mark">Noah Soler</NuxtLink>
+      <nav :aria-label="t.site.navLabel">
+        <NuxtLink :to="localePath('/projects')">{{ t.site.projects }}</NuxtLink>
+        <NuxtLink :to="localePath('/about')">{{ t.site.about }}</NuxtLink>
+        <a href="mailto:soler.noah@gmail.com">{{ t.site.contact }}</a>
+        <!--
+          `external` makes this a plain link (full page load). The two languages
+          are aliases of the same route, and vue-router ignores a navigation
+          between aliases of the same route as "already there".
+        -->
+        <NuxtLink
+          :to="altPath"
+          external
+          class="lang"
+          :lang="altLocale"
+          :hreflang="altLocale"
+          :aria-label="t.site.switchLabel"
+        >{{ altLocale.toUpperCase() }}</NuxtLink>
       </nav>
     </header>
 
@@ -16,7 +50,7 @@
 
     <footer class="wrap">
       <div class="site-footer">
-        <p>Saint-Étienne, France. Open to a work placement abroad in summer 2027.</p>
+        <p>{{ t.site.footer }}</p>
         <ul>
           <li><a href="mailto:soler.noah@gmail.com">soler.noah@gmail.com</a></li>
           <li><a href="https://www.linkedin.com/in/noah-soler-pro-fr" rel="me">LinkedIn</a></li>
@@ -75,6 +109,11 @@ nav {
 nav a {
   text-decoration: none;
   color: var(--ink-soft);
+}
+
+nav .lang {
+  font-weight: 700;
+  letter-spacing: 0.04em;
 }
 
 nav a:hover,

@@ -1,90 +1,30 @@
 <script setup lang="ts">
+definePageMeta({ alias: ['/fr/about'] })
+
+const { t } = useLocale()
+const about = computed(() => t.value.about)
+
 useSeoMeta({
-  title: 'About — Noah Soler',
-  description: 'Background, experience, education, skills and languages of Noah Soler, full-stack developer and engineering apprentice.',
+  title: () => about.value.title,
+  description: () => about.value.description,
 })
-
-interface TimelineItem {
-  period: string
-  title: string
-  place: string
-  detail?: string
-}
-
-// Both lists newest first. They sit side by side because the apprenticeship
-// runs in parallel with the engineering degree.
-const experience: TimelineItem[] = [
-  {
-    period: 'Sep 2025 – present',
-    title: 'Full-stack developer, apprenticeship',
-    place: 'DOING, France',
-    detail: 'AMAGiS (Vue, Symfony) and E-TOTEM (Flutter): invoicing, SQL performance, CI/CD.',
-  },
-  {
-    period: 'May 2025 – May 2026',
-    title: 'President, Bureau des Sports',
-    place: 'Télécom Saint-Étienne, France',
-    detail: 'Led a team of about thirty students: a ski weekend open to the whole school, pétanque tournaments and inter-school tournaments.',
-  },
-  { period: 'May – Jul 2025', title: 'Project intern', place: 'Safran Helicopter Engines, Bordes, France' },
-  { period: 'Apr – Jun 2024', title: 'Project intern', place: 'Treasury General of the Kingdom, Rabat, Morocco' },
-]
-
-const education: TimelineItem[] = [
-  {
-    period: 'Sep 2025 – 2028 (expected)',
-    title: 'Master\'s-level engineering degree, apprenticeship track (IEID)',
-    place: 'Télécom Saint-Étienne, France',
-  },
-  {
-    period: 'Sep 2024 – Aug 2025',
-    title: 'General engineering programme, computer science and optics',
-    place: 'Télécom Saint-Étienne, France',
-  },
-  {
-    period: '2022 – 2024',
-    title: 'Integrated preparatory cycle (CITISE)',
-    place: 'Télécom Saint-Étienne, France',
-    detail: 'DUT in Electrical Engineering and Industrial Computing (GEII)',
-  },
-]
-
-const languages = [
-  { name: 'French', level: 'Native' },
-  { name: 'English', level: 'Upper intermediate (B2), TOEIC planned' },
-  { name: 'Spanish', level: 'Elementary (A2)' },
-]
-
-const skills = [
-  { name: 'Languages', items: 'Python, C, C++, C#, Rust, SQL, TypeScript, PHP, Dart' },
-  { name: 'Web and mobile', items: 'Vue, Nuxt, Symfony, Flutter' },
-  { name: 'DevOps', items: 'Git, GitHub Actions, Bitbucket Pipelines, Docker' },
-  { name: 'Embedded', items: 'Arduino, PCB design, sensors' },
-]
 </script>
 
 <template>
   <section class="wrap page">
-    <h1>About</h1>
+    <h1>{{ about.heading }}</h1>
 
     <div class="intro">
-      <p>
-        I'm an engineering apprentice at Télécom Saint-Étienne, due to graduate in 2028.
-        I spend most of my time as a full-stack developer at DOING, where I work on
-        products for social enterprises and an EV-charging network.
-      </p>
-      <p>
-        I've already worked abroad, in Rabat, and I want to keep growing in an
-        international team. I'm drawn to both web and embedded development. Outside
-        work, I ski, snowboard and run.
+      <p v-for="(paragraph, index) in about.intro" :key="index">
+        {{ paragraph }}
       </p>
     </div>
 
     <div class="paths">
       <section aria-labelledby="experience-title">
-        <h2 id="experience-title">Experience</h2>
+        <h2 id="experience-title">{{ about.experienceHeading }}</h2>
         <ol class="timeline">
-          <li v-for="item in experience" :key="item.period">
+          <li v-for="item in about.experience" :key="item.period">
             <span class="when">{{ item.period }}</span>
             <span class="what">{{ item.title }}</span>
             <span class="where">{{ item.place }}</span>
@@ -94,9 +34,9 @@ const skills = [
       </section>
 
       <section aria-labelledby="education-title">
-        <h2 id="education-title">Education</h2>
+        <h2 id="education-title">{{ about.educationHeading }}</h2>
         <ol class="timeline">
-          <li v-for="item in education" :key="item.period">
+          <li v-for="item in about.education" :key="item.period">
             <span class="when">{{ item.period }}</span>
             <span class="what">{{ item.title }}</span>
             <span class="where">{{ item.place }}</span>
@@ -106,17 +46,17 @@ const skills = [
       </section>
     </div>
 
-    <h2>Skills</h2>
+    <h2>{{ about.skillsHeading }}</h2>
     <dl class="languages">
-      <div v-for="skill in skills" :key="skill.name">
+      <div v-for="skill in about.skills" :key="skill.name">
         <dt>{{ skill.name }}</dt>
         <dd>{{ skill.items }}</dd>
       </div>
     </dl>
 
-    <h2>Languages</h2>
+    <h2>{{ about.languagesHeading }}</h2>
     <dl class="languages">
-      <div v-for="language in languages" :key="language.name">
+      <div v-for="language in about.languages" :key="language.name">
         <dt>{{ language.name }}</dt>
         <dd>{{ language.level }}</dd>
       </div>
