@@ -1,6 +1,11 @@
-# Before the languages had their own sub-directory, the English pages lived at
-# the root. Keep those links working. They are never used in hreflang or the sitemap.
-/about /en/about/ 301
-/about/ /en/about/ 301
-/projects /en/projects/ 301
-/projects/* /en/projects/:splat 301
+# Before the languages had a language-region sub-directory, English pages lived
+# at the root and later under /en/ and /fr/. Keep those links working. They are
+# never used in hreflang or the sitemap.
+/about /en-us/about/ 301
+/about/ /en-us/about/ 301
+/projects /en-us/projects/ 301
+/projects/* /en-us/projects/:splat 301
+/en /en-us/ 301
+/en/* /en-us/:splat 301
+/fr /fr-fr/ 301
+/fr/* /fr-fr/:splat 301

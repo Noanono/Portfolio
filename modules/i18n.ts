@@ -9,7 +9,7 @@ import { mkdir, writeFile } from 'node:fs/promises'
 import { join, resolve } from 'node:path'
 import { defineNuxtModule } from '@nuxt/kit'
 import { defaultLocale, siteUrl } from '../app/i18n/config'
-import { absoluteUrl, localeCode, localeSegment, localizedPath } from '../app/i18n/url'
+import { absoluteUrl, assertLocaleFile, localeCode, localeSegment, localizedPath } from '../app/i18n/url'
 
 interface RouteLike {
   path: string
@@ -24,6 +24,9 @@ export default defineNuxtModule({
       .filter(file => file.endsWith('.ts'))
       .map(file => file.replace(/\.ts$/, ''))
       .sort()
+
+    // hreflang needs a language and a region: fail early with a clear message.
+    segments.forEach(assertLocaleFile)
 
     if (!segments.includes(localeSegment(defaultLocale))) {
       throw new Error(`The default language "${defaultLocale}" has no file in app/i18n/locales.`)

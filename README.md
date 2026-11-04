@@ -46,14 +46,14 @@ app/
   composables/useLocale.ts Current language, translated strings, localized links
   data/projects.ts         Project data that does not depend on the language
   i18n/
-    locales/               One file per language (en.ts, fr.ts): add a file to add a language
+    locales/               One file per language-region (en-us.ts, fr-fr.ts): add a file to add a language
     config.ts              Default language and site URL
     index.ts               Finds the languages; helpers
-    url.ts                 URL rules (/en/, /fr/, hreflang codes)
+    url.ts                 URL rules (/en-us/, /fr-fr/, hreflang codes)
     types.ts               Shape of a language file
   layouts/default.vue      Header, footer, skip link, language switch
   pages/
-    index.vue              Language gateway: sends visitors to /en/ or /fr/
+    index.vue              Language gateway: sends visitors to /en-us/ or /fr-fr/
     [lang]/index.vue       Home
     [lang]/about.vue       Background, experience, languages
     [lang]/projects/       All projects, one project

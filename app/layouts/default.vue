@@ -112,7 +112,8 @@ main {
 
 nav {
   display: flex;
-  gap: clamp(12px, 3vw, 28px);
+  flex-wrap: wrap;
+  gap: 4px clamp(12px, 3vw, 28px);
   white-space: nowrap;
 }
 

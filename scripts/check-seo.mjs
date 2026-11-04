@@ -1,7 +1,8 @@
 // Checks the generated site (.output/public) against the multilingual SEO rules
 // the site follows (https://seaudit.fr/fr/blog/hreflang-seo-multilingue-international-2026):
 //
-// - one sub-directory per language
+// - one sub-directory per language and region (/en-us/, /fr-fr/, /fr-be/)
+// - hreflang codes are language-region: en-US, fr-FR, fr-BE
 // - every page lists itself and all its translations (hreflang), plus x-default
 // - reciprocity: if A points to B, B points to A
 // - absolute URLs with the same trailing slash as the canonical, never redirected
@@ -20,8 +21,8 @@ if (!siteUrl || !defaultLocale) throw new Error('Cannot read siteUrl and default
 
 const segments = readdirSync('app/i18n/locales').filter(f => f.endsWith('.ts')).map(f => f.replace(/\.ts$/, '')).sort()
 const codeOf = (segment) => {
-  const [language, ...rest] = segment.split('-')
-  return [language, ...rest.map(p => p.length === 2 ? p.toUpperCase() : p[0].toUpperCase() + p.slice(1))].join('-')
+  const [language, region = ''] = segment.split('-')
+  return `${language}-${region.toUpperCase()}`
 }
 const codes = segments.map(codeOf)
 const defaultCode = codeOf(defaultLocale.toLowerCase())
@@ -65,7 +66,8 @@ for (const segment of segments) {
 if (pages.size === 0) throw new Error('No language page found in .output/public. Run `npm run generate` first.')
 
 const urlOf = (code, neutral) => `${siteUrl}/${code.toLowerCase()}${neutral === '/' ? '' : neutral}/`.replace(/\/+$/, '/')
-const hreflangFormat = /^([a-z]{2,3}(-[A-Z][a-z]{3})?(-[A-Z]{2})?|x-default)$/
+// Language and region, like en-US or fr-BE (or x-default).
+const hreflangFormat = /^([a-z]{2,3}-[A-Z]{2}|x-default)$/
 
 for (const [url, page] of pages) {
   const where = page.path
