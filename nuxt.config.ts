@@ -19,6 +19,13 @@ export default defineNuxtConfig({
       ],
     },
   },
+  nitro: {
+    prerender: {
+      // /bde/ is a static Angular site copied into public/bde, not a Nuxt page.
+      // Without this the crawler follows the "open full screen" link and fails on a 404.
+      ignore: ['/bde'],
+    },
+  },
   typescript: {
     strict: true,
   },
