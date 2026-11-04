@@ -29,6 +29,11 @@ export function absoluteUrl(path: string): string {
   return path === '/' ? `${siteUrl}/` : `${siteUrl}${path}/`
 }
 
+/** CV served from public/cv, one PDF per language. */
+export function cvPath(locale: Locale): string {
+  return `/cv/Noah-Soler-CV-${locale}.pdf`
+}
+
 /** Path of the same page in the given language. */
 export function localizedPath(path: string, locale: Locale): string {
   const clean = stripLocale(path)

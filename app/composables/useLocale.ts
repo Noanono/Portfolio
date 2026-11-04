@@ -1,4 +1,4 @@
-import { localeFromPath, localizedPath } from '~/i18n/locale'
+import { cvPath, localeFromPath, localizedPath } from '~/i18n/locale'
 import type { Locale } from '~/i18n/locale'
 import { messages } from '~/i18n/messages'
 
@@ -13,6 +13,8 @@ export function useLocale() {
   /** Prefixes an internal path with the current language. */
   const localePath = (path: string) => localizedPath(path, locale.value)
   const t = computed(() => messages[locale.value])
+  /** CV in the language of the page. */
+  const cvHref = computed(() => cvPath(locale.value))
 
-  return { locale, altLocale, altPath, localePath, t }
+  return { locale, altLocale, altPath, localePath, cvHref, t }
 }

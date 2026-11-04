@@ -2,7 +2,7 @@
 import { absoluteUrl, localizedPath, locales } from '~/i18n/locale'
 
 const route = useRoute()
-const { locale, altLocale, altPath, localePath, t } = useLocale()
+const { locale, altLocale, altPath, localePath, cvHref, t } = useLocale()
 
 // Tell the browser and search engines which language the page is in, and where
 // the same page exists in the other language.
@@ -31,16 +31,21 @@ useHead(() => ({
         <!--
           `external` makes this a plain link (full page load). The two languages
           are aliases of the same route, and vue-router ignores a navigation
-          between aliases of the same route as "already there".
+          between aliases of the same route as "already there". Prefetching is
+          off because Nuxt would try to load a payload from a full URL and log
+          an error on every page.
         -->
         <NuxtLink
           :to="altPath"
           external
+          :prefetch="false"
           class="lang"
           :lang="altLocale"
           :hreflang="altLocale"
-          :aria-label="t.site.switchLabel"
-        >{{ altLocale.toUpperCase() }}</NuxtLink>
+        >
+          <span class="lang-name">{{ t.site.switchName }}</span>
+          <span class="lang-code" aria-hidden="true">{{ altLocale.toUpperCase() }}</span>
+        </NuxtLink>
       </nav>
     </header>
 
@@ -53,6 +58,7 @@ useHead(() => ({
         <p>{{ t.site.footer }}</p>
         <ul>
           <li><a href="mailto:soler.noah@gmail.com">soler.noah@gmail.com</a></li>
+          <li><a :href="cvHref" download>{{ t.site.cv }}</a></li>
           <li><a href="https://www.linkedin.com/in/noah-soler-pro-fr" rel="me">LinkedIn</a></li>
           <li><a href="https://github.com/Noanono" rel="me">GitHub</a></li>
         </ul>
@@ -88,14 +94,16 @@ main {
 .site-header {
   display: flex;
   align-items: baseline;
+  flex-wrap: wrap;
   justify-content: space-between;
-  gap: 24px;
+  gap: 8px 16px;
   padding-block: 20px;
   position: relative;
   z-index: 2;
 }
 
 .mark {
+  white-space: nowrap;
   font-weight: 800;
   font-variation-settings: 'wdth' 125;
   text-decoration: none;
@@ -103,7 +111,8 @@ main {
 
 nav {
   display: flex;
-  gap: clamp(14px, 3vw, 28px);
+  gap: clamp(12px, 3vw, 28px);
+  white-space: nowrap;
 }
 
 nav a {
@@ -111,9 +120,52 @@ nav a {
   color: var(--ink-soft);
 }
 
+/* A rule sets the language switch apart from the page links. */
 nav .lang {
-  font-weight: 700;
-  letter-spacing: 0.04em;
+  padding-left: clamp(12px, 3vw, 28px);
+  border-left: 1px solid var(--contour-strong);
+}
+
+/* On narrow screens the switch shows the language code; the full name stays
+   available to screen readers. */
+.lang-code {
+  display: none;
+}
+
+@media (max-width: 480px) {
+  nav {
+    font-size: 0.9375rem;
+  }
+
+  .lang-name {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  .lang-code {
+    display: inline;
+    font-weight: 700;
+  }
+}
+
+/* Very narrow phones: keep the name and the four nav items on one line. */
+@media (max-width: 400px) {
+  .mark {
+    font-size: 0.9375rem;
+  }
+
+  nav {
+    gap: 10px;
+    font-size: 0.875rem;
+  }
+
+  nav .lang {
+    padding-left: 10px;
+  }
 }
 
 nav a:hover,
