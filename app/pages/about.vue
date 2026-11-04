@@ -1,7 +1,7 @@
 <script setup lang="ts">
 useSeoMeta({
   title: 'About — Noah Soler',
-  description: 'Background, experience, education and languages of Noah Soler, full-stack developer and engineering apprentice.',
+  description: 'Background, experience, education, skills and languages of Noah Soler, full-stack developer and engineering apprentice.',
 })
 
 interface TimelineItem {
@@ -14,7 +14,18 @@ interface TimelineItem {
 // Both lists newest first. They sit side by side because the apprenticeship
 // runs in parallel with the engineering degree.
 const experience: TimelineItem[] = [
-  { period: 'Sep 2025 – present', title: 'Full-stack developer, apprenticeship', place: 'DOING, France' },
+  {
+    period: 'Sep 2025 – present',
+    title: 'Full-stack developer, apprenticeship',
+    place: 'DOING, France',
+    detail: 'AMAGiS (Vue, Symfony) and E-TOTEM (Flutter): invoicing, SQL performance, CI/CD.',
+  },
+  {
+    period: 'May 2025 – May 2026',
+    title: 'President, Bureau des Sports',
+    place: 'Télécom Saint-Étienne, France',
+    detail: 'Led a team of about thirty students: a ski weekend open to the whole school, pétanque tournaments and inter-school tournaments.',
+  },
   { period: 'May – Jul 2025', title: 'Project intern', place: 'Safran Helicopter Engines, Bordes, France' },
   { period: 'Apr – Jun 2024', title: 'Project intern', place: 'Treasury General of the Kingdom, Rabat, Morocco' },
 ]
@@ -40,8 +51,15 @@ const education: TimelineItem[] = [
 
 const languages = [
   { name: 'French', level: 'Native' },
-  { name: 'English', level: 'Fluent (B2+)' },
-  { name: 'Spanish', level: 'Intermediate (A2–B1)' },
+  { name: 'English', level: 'Upper intermediate (B2), TOEIC planned' },
+  { name: 'Spanish', level: 'Elementary (A2)' },
+]
+
+const skills = [
+  { name: 'Languages', items: 'Python, C, C++, C#, Rust, SQL, TypeScript, PHP, Dart' },
+  { name: 'Web and mobile', items: 'Vue, Nuxt, Symfony, Flutter' },
+  { name: 'DevOps', items: 'Git, GitHub Actions, Bitbucket Pipelines, Docker' },
+  { name: 'Embedded', items: 'Arduino, PCB design, sensors' },
 ]
 </script>
 
@@ -57,8 +75,8 @@ const languages = [
       </p>
       <p>
         I've already worked abroad, in Rabat, and I want to keep growing in an
-        international team. Outside work, I preside over my school's sports
-        association, ski, snowboard and run.
+        international team. I'm drawn to both web and embedded development. Outside
+        work, I ski, snowboard and run.
       </p>
     </div>
 
@@ -70,6 +88,7 @@ const languages = [
             <span class="when">{{ item.period }}</span>
             <span class="what">{{ item.title }}</span>
             <span class="where">{{ item.place }}</span>
+            <span v-if="item.detail" class="where">{{ item.detail }}</span>
           </li>
         </ol>
       </section>
@@ -86,6 +105,14 @@ const languages = [
         </ol>
       </section>
     </div>
+
+    <h2>Skills</h2>
+    <dl class="languages">
+      <div v-for="skill in skills" :key="skill.name">
+        <dt>{{ skill.name }}</dt>
+        <dd>{{ skill.items }}</dd>
+      </div>
+    </dl>
 
     <h2>Languages</h2>
     <dl class="languages">
