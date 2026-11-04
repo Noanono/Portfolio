@@ -14,10 +14,11 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "typecheck": "nuxt typecheck",
-    "audit:prod": "node scripts/audit.mjs"
+    "audit:prod": "node scripts/audit.mjs",
+    "check:seo": "node scripts/check-seo.mjs"
   },
   "dependencies": {
-    "nuxt": "^4.5.2",
+    "nuxt": "^4.6.4",
     "vue": "^3.5.43",
     "vue-router": "^5.3.1"
   },

@@ -32,29 +32,43 @@ npm run dev        # http://localhost:3000
 | `npm run preview`   | Preview the production build locally         |
 | `npm run lint`      | Lint with ESLint (`lint:fix` to auto-fix)    |
 | `npm run typecheck` | Type-check Vue and TypeScript files          |
+| `npm run check:seo` | Check hreflang, canonical and sitemap of the generated site |
 
 ## Project structure
 
 ```
 app/
   assets/css/main.css      Design tokens (colors, type scale) and base styles
+  assets/fonts/            Archivo (variable font, SIL OFL), served from this site
   components/
     ContourMap.vue         Interactive contour-line hero
     ProjectList.vue        Project rows used on the home and projects pages
-  data/projects.ts         Project content: edit this file to add a project
-  layouts/default.vue      Header, footer, skip link
+  composables/useLocale.ts Current language, translated strings, localized links
+  data/projects.ts         Project data that does not depend on the language
+  i18n/
+    locales/               One file per language-region (en-us.ts, fr-fr.ts): add a file to add a language
+    config.ts              Default language and site URL
+    index.ts               Finds the languages; helpers
+    url.ts                 URL rules (/en-us/, /fr-fr/, hreflang codes)
+    types.ts               Shape of a language file
+  layouts/default.vue      Header, footer, skip link, language switch
   pages/
-    index.vue              Home
-    about.vue              Background, experience, languages
-    projects/index.vue     All projects
-    projects/[slug].vue    One project
-public/                    Static files served as-is
+    index.vue              Language gateway: sends visitors to /en-us/ or /fr-fr/
+    [lang]/index.vue       Home
+    [lang]/about.vue       Background, experience, languages
+    [lang]/projects/       All projects, one project
+modules/i18n.ts            Routes, prerendering and sitemap for the languages
+public/
+  cv/                      CV as PDF, one per language (Noah-Soler-CV-en.pdf, -fr.pdf)
+  bde/                     Embedded student-union site (static Angular build)
 ```
 
 ## Adding a project
 
-Add an entry to `app/data/projects.ts`. Its `slug` becomes the URL
-(`/projects/<slug>`), and `featured: true` puts it on the home page.
+Add an entry to `app/data/projects.ts` (its `slug` becomes the URL
+`/<language>/projects/<slug>/`, and `featured: true` puts it on the home
+page), then add the project's texts to each file in `app/i18n/locales`. The
+build fails if a language misses one.
 
 ## Commit messages
 
@@ -80,4 +94,5 @@ to staging first.
 More detailed docs live in [`doc/`](doc/):
 
 - [Branches and contributions](doc/branching.md): `develop` / `main` workflow and branch protection
+- [Languages](doc/i18n.md): URLs, hreflang rules, how to add a language
 - [Deployment](doc/deploy.md): Cloudflare setup, secrets, manual deploy and troubleshooting

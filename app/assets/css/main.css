@@ -3,6 +3,17 @@
  * Glacier-white paper, slate ink, faint contour lines, and one piste-red
  * accent reserved for links and focus.
  */
+/* Archivo (variable: weight and width), served from this site instead of Google
+   Fonts. SIL Open Font License: see Archivo-OFL.txt next to the font file. */
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 100 900;
+  font-stretch: 62% 125%;
+  font-display: swap;
+  src: url('../fonts/archivo-latin-wdth-normal.woff2') format('woff2-variations');
+}
+
 :root {
   --paper: #eef2f3;
   --ink: #1b2a33;
