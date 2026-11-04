@@ -38,6 +38,7 @@ npm run dev        # http://localhost:3000
 ```
 app/
   assets/css/main.css      Design tokens (colors, type scale) and base styles
+  assets/fonts/            Archivo (variable font, SIL OFL), served from this site
   components/
     ContourMap.vue         Interactive contour-line hero
     ProjectList.vue        Project rows used on the home and projects pages
@@ -52,7 +53,9 @@ app/
     about.vue              Background, experience, languages
     projects/index.vue     All projects
     projects/[slug].vue    One project
-public/                    Static files served as-is
+public/
+  cv/                      CV as PDF, one per language (Noah-Soler-CV-en.pdf, -fr.pdf)
+  bde/                     Embedded student-union site (static Angular build)
 ```
 
 ## Adding a project
