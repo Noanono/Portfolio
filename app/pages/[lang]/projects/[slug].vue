@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { findProject } from '~/data/projects'
 
-definePageMeta({ alias: ['/fr/projects/:slug'] })
-
 const route = useRoute()
 const { locale, localePath, t } = useLocale()
 const project = computed(() => findProject(String(route.params.slug), locale.value))
@@ -36,10 +34,6 @@ useSeoMeta({
       <div>
         <dt>{{ t.projects.builtWith }}</dt>
         <dd>{{ project.stack.join(', ') }}</dd>
-      </div>
-      <div v-if="project.url">
-        <dt>{{ t.projects.liveSite }}</dt>
-        <dd><a :href="project.url" rel="noopener">{{ project.url.replace(/^https?:\/\//, '').replace(/\/$/, '') }}</a></dd>
       </div>
     </dl>
 

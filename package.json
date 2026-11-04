@@ -14,7 +14,8 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "typecheck": "nuxt typecheck",
-    "audit:prod": "node scripts/audit.mjs"
+    "audit:prod": "node scripts/audit.mjs",
+    "check:seo": "node scripts/check-seo.mjs"
   },
   "dependencies": {
     "nuxt": "^4.6.4",
