@@ -1,3 +1,22 @@
+export interface ProjectLink {
+  href: string
+  /** Visible text of the link. */
+  label: string
+  /** Spoken label when the visible text alone is not enough. Must start with the visible text. */
+  ariaLabel?: string
+}
+
+/** A site shown in a phone-shaped frame on the project page. */
+export interface ProjectEmbed {
+  /** Path of the site served by this portfolio, e.g. `/bde/index.html`. */
+  src: string
+  /** Accessible title of the frame. */
+  title: string
+  /** Where "open full screen" leads. */
+  fullscreenHref: string
+  fullscreenLabel: string
+}
+
 export interface Project {
   slug: string
   title: string
@@ -10,6 +29,9 @@ export interface Project {
   /** Longer description for the detail page, one paragraph per entry. */
   body: string[]
   url?: string
+  /** External links opened in a new tab, shown under the description. */
+  links?: ProjectLink[]
+  embed?: ProjectEmbed
   /** Shown before other projects. */
   featured?: boolean
 }
@@ -28,6 +50,13 @@ export const projects: Project[] = [
       'I added an index on the slowest queries, and moved the heavy filters onto joins with buffer tables that cron jobs keep up to date, so a request no longer recomputes everything.',
       'I also replaced the native SQL pagination, which slows down on large result sets, with pagination driven by an index.',
     ],
+    links: [
+      {
+        href: 'https://www.e-totem.fr/#/home/ou_se_recharger',
+        label: 'Voir le site E-TOTEM',
+        ariaLabel: 'Voir le site E-TOTEM (s\'ouvre dans un nouvel onglet)',
+      },
+    ],
     featured: true,
   },
   {
@@ -41,6 +70,13 @@ export const projects: Project[] = [
       'AMAGiS helps work-integration social enterprises (SIAE) run their day-to-day operations. Version 2 is a rewrite of an application originally built in VB6, and I work on both the Vue front end and the Symfony back end.',
       'I built the invoicing system and a feature to compare evaluations over time, and redesigned the list components used across the whole app.',
       'On the DevOps side, I fixed the Bitbucket CI/CD pipeline and upgraded the Docker environment and its dependencies.',
+    ],
+    links: [
+      {
+        href: 'https://www.amagis.fr/',
+        label: 'Voir le site AMAGiS',
+        ariaLabel: 'Voir le site AMAGiS (s\'ouvre dans un nouvel onglet)',
+      },
     ],
     featured: true,
   },
@@ -124,7 +160,14 @@ export const projects: Project[] = [
     stack: ['Angular', 'TypeScript'],
     body: [
       'A showcase site for the BA\'TSE student union list during the selection week for the following year\'s union.',
+      'The preview below is the real site, running inside this page.',
     ],
+    embed: {
+      src: '/bde/index.html',
+      title: 'Site de la campagne BDE (aperçu mobile)',
+      fullscreenHref: '/bde/',
+      fullscreenLabel: 'Ouvrir en plein écran',
+    },
   },
 ]
 
