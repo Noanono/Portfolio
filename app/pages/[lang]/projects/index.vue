@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { getProjects } from '~/data/projects'
 
-definePageMeta({ alias: ['/fr/projects'] })
-
 const { locale, t } = useLocale()
 const projects = computed(() => getProjects(locale.value))
 

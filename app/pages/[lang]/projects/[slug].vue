@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { findProject } from '~/data/projects'
 
-definePageMeta({ alias: ['/fr/projects/:slug'] })
-
 const route = useRoute()
 const { locale, localePath, t } = useLocale()
 const project = computed(() => findProject(String(route.params.slug), locale.value))

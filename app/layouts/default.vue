@@ -1,20 +1,26 @@
 <script setup lang="ts">
-import { absoluteUrl, localizedPath, locales } from '~/i18n/locale'
+import { defaultLocale, locales } from '~/i18n'
+import { absoluteUrl, localizedPath } from '~/i18n/url'
 
-const route = useRoute()
-const { locale, altLocale, altPath, localePath, cvHref, t } = useLocale()
+const { locale, neutralPath, others, localePath, cvHref, t } = useLocale()
 
-// Tell the browser and search engines which language the page is in, and where
-// the same page exists in the other language.
+// What search engines need to know about each page: its language, its own
+// address (canonical), and the same page in every language, itself included.
+// `x-default` is the page for visitors whose language is not available.
 useHead(() => ({
   htmlAttrs: { lang: locale.value },
   link: [
-    ...locales.map(code => ({
+    { rel: 'canonical', href: absoluteUrl(localizedPath(neutralPath.value, locale.value)) },
+    ...locales.map(language => ({
       rel: 'alternate' as const,
-      hreflang: code,
-      href: absoluteUrl(localizedPath(route.path, code)),
+      hreflang: language.code,
+      href: absoluteUrl(localizedPath(neutralPath.value, language.code)),
     })),
-    { rel: 'alternate', hreflang: 'x-default', href: absoluteUrl(localizedPath(route.path, 'en')) },
+    {
+      rel: 'alternate' as const,
+      hreflang: 'x-default',
+      href: absoluteUrl(localizedPath(neutralPath.value, defaultLocale)),
+    },
   ],
 }))
 </script>
@@ -28,24 +34,19 @@ useHead(() => ({
         <NuxtLink :to="localePath('/projects')">{{ t.site.projects }}</NuxtLink>
         <NuxtLink :to="localePath('/about')">{{ t.site.about }}</NuxtLink>
         <a href="mailto:soler.noah@gmail.com">{{ t.site.contact }}</a>
-        <!--
-          `external` makes this a plain link (full page load). The two languages
-          are aliases of the same route, and vue-router ignores a navigation
-          between aliases of the same route as "already there". Prefetching is
-          off because Nuxt would try to load a payload from a full URL and log
-          an error on every page.
-        -->
-        <NuxtLink
-          :to="altPath"
-          external
-          :prefetch="false"
-          class="lang"
-          :lang="altLocale"
-          :hreflang="altLocale"
-        >
-          <span class="lang-name">{{ t.site.switchName }}</span>
-          <span class="lang-code" aria-hidden="true">{{ altLocale.toUpperCase() }}</span>
-        </NuxtLink>
+        <div class="languages" role="group" :aria-label="t.site.languageLabel">
+          <NuxtLink
+            v-for="language in others"
+            :key="language.code"
+            :to="language.path"
+            class="lang"
+            :lang="language.code"
+            :hreflang="language.code"
+          >
+            <span class="lang-name">{{ language.name }}</span>
+            <span class="lang-code" aria-hidden="true">{{ language.short }}</span>
+          </NuxtLink>
+        </div>
       </nav>
     </header>
 
@@ -121,7 +122,9 @@ nav a {
 }
 
 /* A rule sets the language switch apart from the page links. */
-nav .lang {
+.languages {
+  display: flex;
+  gap: clamp(12px, 3vw, 28px);
   padding-left: clamp(12px, 3vw, 28px);
   border-left: 1px solid var(--contour-strong);
 }
@@ -163,7 +166,8 @@ nav .lang {
     font-size: 0.875rem;
   }
 
-  nav .lang {
+  .languages {
+    gap: 10px;
     padding-left: 10px;
   }
 }

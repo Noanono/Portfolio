@@ -1,6 +1,4 @@
 <script setup lang="ts">
-definePageMeta({ alias: ['/fr/about'] })
-
 const { t } = useLocale()
 const about = computed(() => t.value.about)
 
